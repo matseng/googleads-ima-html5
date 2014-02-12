@@ -83,7 +83,7 @@ Application.prototype.bind_ = function(thisObj, fn) {
 };
 
 Application.prototype.onSampleClick_ = function() {
-  this.tagBox.value = this.sampleTag;
+  this.tagBox_.value = this.sampleTag;
 };
 
 Application.prototype.onClick_ = function() {
