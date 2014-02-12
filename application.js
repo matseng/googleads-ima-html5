@@ -7,7 +7,7 @@
  * Handles user interaction and creates the player and ads controllers.
  */
 var Application = function() {
-  this.tagBox = document.getElementById('tagBox');
+  this.tagBox = document.getElementById('tagText');
   this.console_ = document.getElementById('console');
   this.playButton_ = document.getElementById('playpause');
   this.playButton_.addEventListener(
