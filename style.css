@@ -116,7 +116,7 @@ footer {
 }
 
 .fakeLink {
-  float: left;
   color: blue;
   text-decoration: underline;
+  cursor: pointer;
 }

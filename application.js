@@ -7,7 +7,12 @@
  * Handles user interaction and creates the player and ads controllers.
  */
 var Application = function() {
-  this.tagBox = document.getElementById('tagText');
+  this.tagBox_ = document.getElementById('tagText');
+  this.sampleLink_ = document.getElementById('sampleLink');
+  this.sampleLink_.addEventListener(
+      'click',
+      this.bind_(this, this.onSampleClick_),
+      false);
   this.console_ = document.getElementById('console');
   this.playButton_ = document.getElementById('playpause');
   this.playButton_.addEventListener(
@@ -33,6 +38,8 @@ var Application = function() {
         this.bind_(this, this.onFullscreenChange_),
         false);
   }
+
+  this.sampleTag = 'http://pubads.g.doubleclick.net/gampad/ads?sz=640x360&iu=/6062/iab_vast_samples/skippable&ciu_szs=300x250,728x90&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=[referrer_url]&correlator=[timestamp]';
 
   this.playing_ = false;
   this.adsActive_ = false;
@@ -75,13 +82,17 @@ Application.prototype.bind_ = function(thisObj, fn) {
   };
 };
 
+Application.prototype.onSampleClick_ = function() {
+  this.tagBox.value = this.sampleTag;
+};
+
 Application.prototype.onClick_ = function() {
   if (!this.adsDone_) {
-    if (this.tagBox.value == '') {
+    if (this.tagBox_.value == '') {
       this.log("Error: please fill in an ad tag");
       return;
     } else {
-      this.adTagUrl_ = this.tagBox.value;
+      this.adTagUrl_ = this.tagBox_.value;
     }
     // The user clicked/tapped - inform the ads controller that this code
     // is being run in a user action thread.
