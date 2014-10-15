@@ -8,6 +8,8 @@
  */
 var Application = function() {
   this.adTagBox_ = document.getElementById('tagText');
+  this.adTagBox_.value = 'http://216.178.47.89/api/1.0/tag/103';
+  // this.adTagBox_.value = 'http://216.178.47.89/api/1.0/tag/103?Access-Control-Allow-Credentials=false';
   this.sampleAdTag_ = document.getElementById('sampleAdTag');
   this.sampleAdTag_.addEventListener(
       'click',
