@@ -3,10 +3,84 @@
   <head>
     <link rel="stylesheet" type="text/css" href="style.css"/>
 
+    <!-- // <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js"></script> -->
+    <script src='node_modules/jquery/dist/jquery.js'></script>
+    <script type="text/javascript" src="ajax_interceptor.js"></script>
     <script type="text/javascript" src="sdk/adsapi.js"></script>
     <script type="text/javascript" src="application.js"></script>
     <script type="text/javascript" src="ads.js"></script>
     <script type="text/javascript" src="video_player.js"></script>
+
+
+    <script>
+    (function(win){
+      var ncon = win.console;
+
+      var con = win.console = {
+          backlog: []
+      };
+
+      for(var k in ncon) {
+          if(typeof ncon[k] === 'function') {
+              con[k] = (function(fn) {
+                  return function() {
+                      con.backlog.push([new Date(), fn, arguments]);
+                      ncon[fn].apply(ncon, arguments);
+                  };
+              // })(fn);
+              })('log');
+          }
+      }
+    })(window);
+
+      $(function() {
+        var codeString = "$.get('http://216.178.47.89/api/1.0/tag/8', function(data) {  \
+          alert('Load was performed.');  \
+          var httpRequest = new XMLHttpRequest(); \
+          httpRequest.open('GET', 'test.html');  \
+          httpRequest.send();  \
+        });"
+        var codeString2 = "var httpRequest = new XMLHttpRequest(); \
+          httpRequest.open('GET', 'test.html');  \
+          httpRequest.send();"
+
+        var hwStr = 'alert("hello world");'
+        // _writeScriptToNewIframe(" ", codeString);
+        // _writeScriptToNewIframe(" ", hwStr);
+
+        // var frameDoc = _writeScriptToNewIframe("http://localhost:8000/dist/sugr.min.js?lid=165598", hwStr);
+        var frameDoc = _writeScriptToNewIframe(codeString2);
+
+        function _writeScriptToNewIframe(codeStr) {
+          var iframe = document.createElement('iframe');
+          iframe.id = "sugrFrame";
+          iframe.frameBorder = iframe.width = iframe.height = 0;
+          // append the new element to the <div id="bucket"></div>
+          document.body.appendChild(iframe);
+
+
+          // create a string to use as a new document object
+          var jquery = 'node_modules/jquery/dist/jquery.js'
+          var val = '<scr' + 'ipt type="text/javascript" src="'+ jquery +'"></scr' + 'ipt>';
+          val += '\n <scr' + 'ipt type="text/javascript" src="ajax_interceptor.js"></scr' + 'ipt>';
+          val += '\n <scr' + 'ipt type="text/javascript">' + codeStr + '</scr' + 'ipt>';
+          // get a handle on the <iframe>d document (in a cross-browser way)
+          var doc = iframe.contentWindow || iframe.contentDocument;
+          if (doc.document) {
+            doc = doc.document;
+          }
+          // open, write content to, and close the document
+          doc.open();
+          doc.write(val);
+          doc.close();
+
+          return doc;
+        }
+
+      })
+
+    
+    </script>
 
     <!-- GPT Companion Code -->
     <!-- Initialize the tagging library -->
